@@ -334,21 +334,21 @@
 
 /* Continue-reading dropdown */
 .bwlp .bw-more{margin-top:8px}
-.bwlp .bw-more summary{list-style:none;display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border:1px solid rgba(255,255,255,.32);border-radius:999px;color:#fff;font-size:15px;letter-spacing:.04em;line-height:1.2;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background .25s,border-color .25s}
+.bwlp .bw-more summary,.bwlp button.bw-close{list-style:none;display:inline-flex;align-items:center;gap:10px;padding:13px 26px;margin:0;border:1px solid rgba(255,255,255,.32)!important;border-radius:999px;background:transparent!important;color:#fff!important;font-family:"Shippori Antique",sans-serif!important;font-size:15px;letter-spacing:.04em;line-height:1.2;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-appearance:none;appearance:none;transition:background .25s,border-color .25s}
 .bwlp .bw-more summary::-webkit-details-marker{display:none}
 .bwlp .bw-more summary::marker{content:""}
-.bwlp .bw-more summary:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.6)}
-.bwlp .bw-more summary:focus-visible{outline:3px solid var(--bw-orange);outline-offset:3px}
-.bwlp .bw-more summary:after{content:"\2193";display:inline-block;transition:transform .3s}
-.bwlp .bw-more[open] summary:after{transform:rotate(180deg)}
-.bwlp .bw-more .bw-less{display:none}
-.bwlp .bw-more[open] .bw-more-label{display:none}
-.bwlp .bw-more[open] .bw-less{display:inline}
-.bwlp .bw-more-body{padding-top:28px;animation:bw-more-in .5s ease both}
+.bwlp .bw-more summary:hover,.bwlp button.bw-close:hover{background:rgba(255,255,255,.09)!important;border-color:rgba(255,255,255,.6)!important}
+.bwlp .bw-more summary:focus,.bwlp button.bw-close:focus{outline:none}
+.bwlp .bw-more summary:focus-visible,.bwlp button.bw-close:focus-visible{outline:2px solid rgba(255,255,255,.75);outline-offset:4px}
+.bwlp .bw-more summary:after{content:"\2193";display:inline-block}
+.bwlp button.bw-close:after{content:"\2191";display:inline-block}
+.bwlp .bw-more[open] summary{display:none}
+.bwlp .bw-more-body{padding-top:4px;animation:bw-more-in .5s ease both}
+.bwlp .bw-more-end{margin-top:30px;padding-top:26px;border-top:1px solid rgba(255,255,255,.14)}
 @keyframes bw-more-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 @media (max-width:600px){
-  .bwlp .bw-more summary{font-size:14px;padding:12px 22px}
-  .bwlp .bw-more-body{padding-top:22px}
+  .bwlp .bw-more summary,.bwlp button.bw-close{font-size:14px;padding:12px 22px}
+  .bwlp .bw-more-end{margin-top:22px;padding-top:20px}
 }
 
 /* Responsive polish: Windows desktops, laptops, tablets and phones */
@@ -391,6 +391,7 @@
   .bwlp .bw-btn:hover{transform:none}
 }
 .bwlp button.bw-top{bottom:calc(22px + env(safe-area-inset-bottom,0px));right:calc(22px + env(safe-area-inset-right,0px))}
+@media (max-width:600px){.bwlp button.bw-top{width:44px;height:44px;font-size:18px;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:calc(14px + env(safe-area-inset-right,0px))}}
 
 </style>
 
@@ -523,11 +524,12 @@
       <div class="bw-prose">
         <p>Joel's passion for body transformations is also deeply personal. Having struggled with his weight for most of his life, he often referred to himself as the chubby brother who wore his T-shirt in the swimming pool. Having experienced those challenges first-hand, Joel understands how much weight can affect a person's confidence, identity and relationship with themselves. Today, his passion is educating people on how to eat well, feel good and get into the best shape of their lives.</p>
         <details class="bw-more">
-          <summary><span class="bw-more-label">Continue reading</span><span class="bw-less">Show less</span></summary>
+          <summary><span class="bw-more-label">Continue reading</span></summary>
           <div class="bw-more-body">
             <p>Joel is also the founder of Base Wellness, delivering personal training services across London and developing the careers of other personal trainers through expert coaching education. He is incredibly passionate about every client's individual journey and cares deeply about creating genuine, long-term change.</p>
             <p>His approach goes beyond simply achieving a physical transformation. He believes in educating people, building confidence and giving them the knowledge and skills to maintain their results long term.</p>
             <p class="bw-key">Joel teaches you how to fish, rather than simply handing you the fish.</p>
+            <div class="bw-more-end"><button type="button" class="bw-close" onclick="var d=this.closest('details');d.removeAttribute('open');d.scrollIntoView({block:'center',behavior:'smooth'});">Show less</button></div>
           </div>
         </details>
       </div>
@@ -714,17 +716,22 @@
 
   var heroWrap = root.querySelector('.bw-hero .bw-wrap');
   var ticking = false;
+  var lastY = window.pageYOffset || 0;
 
   var update = function () {
     ticking = false;
     var y = window.pageYOffset || 0;
     var h = document.documentElement.scrollHeight - window.innerHeight;
     bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
+    var goingUp = y < lastY - 2;
+    var goingDown = y > lastY + 2;
     if (y > 700) {
-      topBtn.classList.add('is-visible');
+      if (goingUp) topBtn.classList.add('is-visible');
+      if (goingDown) topBtn.classList.remove('is-visible');
     } else {
       topBtn.classList.remove('is-visible');
     }
+    lastY = y;
     if (heroWrap) {
       if (!reduce) {
         if (y < 900) {
