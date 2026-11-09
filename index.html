@@ -328,7 +328,27 @@
   .bwlp .bw-article p{font-size:15px;line-height:1.75}
   .bwlp .bw-article p.bw-first{font-size:16.5px}
   .bwlp .bw-article p.bw-key,.bwlp .bw-prose p.bw-key{font-size:18px;padding-left:14px;margin:24px 0 20px}
+  .bwlp .bw-about .bw-split>div:first-child p.bw-first-bio{font-size:15px;line-height:1.7}
   .bwlp .bw-intro-callout{margin-top:26px}
+}
+
+/* Continue-reading dropdown */
+.bwlp .bw-more{margin-top:8px}
+.bwlp .bw-more summary{list-style:none;display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border:1px solid rgba(255,255,255,.32);border-radius:999px;color:#fff;font-size:15px;letter-spacing:.04em;line-height:1.2;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background .25s,border-color .25s}
+.bwlp .bw-more summary::-webkit-details-marker{display:none}
+.bwlp .bw-more summary::marker{content:""}
+.bwlp .bw-more summary:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.6)}
+.bwlp .bw-more summary:focus-visible{outline:3px solid var(--bw-orange);outline-offset:3px}
+.bwlp .bw-more summary:after{content:"\2193";display:inline-block;transition:transform .3s}
+.bwlp .bw-more[open] summary:after{transform:rotate(180deg)}
+.bwlp .bw-more .bw-less{display:none}
+.bwlp .bw-more[open] .bw-more-label{display:none}
+.bwlp .bw-more[open] .bw-less{display:inline}
+.bwlp .bw-more-body{padding-top:28px;animation:bw-more-in .5s ease both}
+@keyframes bw-more-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@media (max-width:600px){
+  .bwlp .bw-more summary{font-size:14px;padding:12px 22px}
+  .bwlp .bw-more-body{padding-top:22px}
 }
 
 /* Responsive polish: Windows desktops, laptops, tablets and phones */
@@ -502,9 +522,14 @@
       </div>
       <div class="bw-prose">
         <p>Joel's passion for body transformations is also deeply personal. Having struggled with his weight for most of his life, he often referred to himself as the chubby brother who wore his T-shirt in the swimming pool. Having experienced those challenges first-hand, Joel understands how much weight can affect a person's confidence, identity and relationship with themselves. Today, his passion is educating people on how to eat well, feel good and get into the best shape of their lives.</p>
-        <p>Joel is also the founder of Base Wellness, delivering personal training services across London and developing the careers of other personal trainers through expert coaching education. He is incredibly passionate about every client's individual journey and cares deeply about creating genuine, long-term change.</p>
-        <p>His approach goes beyond simply achieving a physical transformation. He believes in educating people, building confidence and giving them the knowledge and skills to maintain their results long term.</p>
-        <p class="bw-key">Joel teaches you how to fish, rather than simply handing you the fish.</p>
+        <details class="bw-more">
+          <summary><span class="bw-more-label">Continue reading</span><span class="bw-less">Show less</span></summary>
+          <div class="bw-more-body">
+            <p>Joel is also the founder of Base Wellness, delivering personal training services across London and developing the careers of other personal trainers through expert coaching education. He is incredibly passionate about every client's individual journey and cares deeply about creating genuine, long-term change.</p>
+            <p>His approach goes beyond simply achieving a physical transformation. He believes in educating people, building confidence and giving them the knowledge and skills to maintain their results long term.</p>
+            <p class="bw-key">Joel teaches you how to fish, rather than simply handing you the fish.</p>
+          </div>
+        </details>
       </div>
     </div>
   </section>
